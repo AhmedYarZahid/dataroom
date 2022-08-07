@@ -1,0 +1,152 @@
+#menu-wrapper {
+  width: 60%;
+  margin-top: 20px;
+
+  &.loading {
+    position: relative;
+
+    .spinner-overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      background: rgba(255, 255, 255, .75);
+      z-index: 9999;
+
+      .spinner {
+        position: absolute;
+        left: ~"calc(50% - 16px)";
+        top: ~"calc(50% - 16px)";
+        width: 32px;
+        height: 32px;
+        background-image: ~"url(../images/spinner.gif)";
+        background-size: contain;
+      }
+    }
+  }
+
+  .spinner-overlay {
+    display: none;
+  }
+
+  .sortable-placeholder {
+    height: 32px;
+    border: 1px dashed #ccc;
+    border-radius: 3px;
+    list-style: none;
+  }
+
+  .menu-tree {
+    padding: 0;
+
+    >.menu-item {
+      >.menu-item-info {
+        .move-menu-item {
+          &.left {
+            pointer-events: none;
+            color: #ccc;
+          }
+        }
+      }
+    }
+
+    .menu-item {
+      margin: 5px 0;
+      list-style: none;
+
+      .menu-subtree {
+        display: none;
+      }
+
+      &:first-child {
+        >.menu-item-info {
+          .move-menu-item {
+            &.right {
+              pointer-events: none;
+              color: #ccc;
+            }
+          }
+        }
+      }
+
+      &.open {
+        >.menu-subtree {
+          display: block!important;
+        }
+
+        >.menu-item-info {
+          >.toggler {
+            &:before {
+              display: none!important;
+            }
+
+            &:after {
+              display: inline-block!important;
+            }
+          }
+        }
+      }
+
+      .menu-item-info {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+
+        .menu-item-label {
+          &.has-items {
+            cursor: pointer;
+          }
+        }
+
+        .toggler {
+          &:before, &:after {
+            content: '';
+            display: inline-block;
+            width: 0;
+            height: 0;
+            cursor: pointer;
+          }
+
+          &:before {
+            border-top: 4px solid transparent;
+            border-bottom: 4px solid transparent;
+            border-left: 4px solid #333;
+          }
+
+          &:after {
+            display: none;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 4px solid #333;
+            vertical-align: middle;
+          }
+        }
+
+        .buttons {
+          > * {
+            margin-left: 2px;
+            cursor: pointer;
+          }
+
+          .toggle-active-btn {
+            color: rgba(0, 0, 0, 0.25);
+
+            &.active {
+              color: #3c763d;
+            }
+          }
+
+          .link {
+            margin-right: 10px;
+          }
+        }
+      }
+    }
+  }
+}
+
+#on-menu-sort-buttons {
+  margin-top: 20px;
+}

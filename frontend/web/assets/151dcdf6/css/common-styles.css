@@ -1,0 +1,39 @@
+.tp-header {
+  font-size: 42px;
+}
+.tp-subheader {
+  font-size: 36px;
+}
+.tp-light-text {
+  font-weight: 100;
+}
+.tp-grey-text {
+  color: darkGrey;
+}
+.tp-dark-grey-text {
+  color: grey;
+}
+.tp-light-grey-text {
+  color: lightGrey;
+}
+.tp-blue-text {
+  color: royalBlue;
+}
+.tp-light-blue-text {
+  color: dodgerBlue;
+}
+.tp-orange-text {
+  color: darkOrange;
+}
+@font-face {
+  font-family: 'Eras Demi ITC';
+  src: url(../fonts/Eras_Demi_ITC.ttf);
+}
+.full-width-content {
+  margin: 20px 0;
+  padding: 0!important;
+}
+.full-width-content * {
+  margin: 0!important;
+  padding: 0!important;
+}

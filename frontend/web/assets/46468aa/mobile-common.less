@@ -1,0 +1,385 @@
+html {
+  body {
+
+  }
+}
+
+header {
+  .header-left {
+    width: 42%;
+  }
+
+  .header-right {
+    width: 58%;
+  }
+}
+
+.footer {
+  .home-link {
+    display: none;
+  }
+}
+
+.btn {
+  border-radius: 0;
+  border: none;
+  background-color: @mainColorLight;
+
+  .link-icon {
+    display: none;
+  }
+}
+
+.navbar {
+  .navbar-toggle {
+    display: none;
+  }
+
+  .navbar-collapse {
+    display: block;
+    border: none;
+    box-shadow: none;
+  }
+}
+
+.content-header {
+  position: relative;
+
+  .partners {
+    font-size: 1.05rem;
+    font-weight: 300;
+    background-color: @mainColorDark;
+    color: @textColorGray;
+    opacity: .85;
+    overflow: hidden;
+
+    span {
+      margin: 0 .8rem;
+      line-height: 1.8rem;
+    }
+  }
+
+  .content-header-banner {
+    width: 100%;
+  }
+
+  .banner-text {
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    width: 80%;
+    max-width: 600px;
+    color: #fff;
+    font-size: 1.6rem;
+    font-weight: 300;
+    line-height: 1.5;
+  }
+
+  .banner-dataroom {
+    display: none;
+  }
+
+  .cities {
+    margin-top: -3.5rem;
+    font-size: 1.35rem;
+    font-weight: 300;
+    line-height: 3.5rem;
+    text-transform: uppercase;
+    background-color: @mainColorDark;
+    color: @textColorGray;
+    opacity: .85;
+    overflow: hidden;
+    white-space: nowrap;
+
+    span {
+      padding: 0 10px;
+    }
+  }
+}
+
+.tp-aja-header-with-dash {
+  .title-with-dash();
+
+  font-size: 2.8rem;
+}
+
+.team-members {
+  padding: 2rem 0 0;
+  margin-top: 4rem;
+
+  .team-members-header {
+    margin-top: 2rem!important;
+  }
+
+  .tp-container {
+    background: none!important;
+
+    .team-member {
+      margin-bottom: 4rem;
+
+      .image {
+        display: block;
+        width: 80%!important;
+        margin: 0 auto;
+        border-radius: 0!important;
+      }
+
+      .overlay {
+        left: 10%;
+        right: 10%;
+      }
+    }
+  }
+}
+
+.homepage {
+  .our-locations {
+    p {
+      br {
+        display: none;
+      }
+    }
+
+    .our-locations-text {
+      .tp-aja-text-light {
+        font-size: 1.6rem;
+      }
+    }
+
+    .our-locations-map {
+      img {
+        width: 100%;
+      }
+    }
+  }
+
+  .company-info {
+    padding: 2rem 1rem!important;
+
+    * {
+      font-size: 1.8rem;
+    }
+
+    strong {
+      font-weight: 500;
+    }
+
+    .note-to-the-right {
+      display: block;
+      margin: 2rem 0;
+      font-size: 1.4rem;
+    }
+
+    .button {
+      margin-top: 2rem;
+    }
+  }
+
+  .tp-section-wrapper.offers {
+    padding: 0;
+
+    .tp-section {
+      max-width: 100%;
+      width: 100%;
+      margin: 0 auto;
+
+      .tp-container {
+        margin: 0;
+        width: 100%;
+      }
+    }
+  }
+
+  .latest-offers {
+    flex-direction: column;
+    margin: 4rem 0;
+
+    .left {
+
+    }
+
+    .right {
+      margin-top: 3rem;
+    }
+
+    .banner-dataroom {
+
+    }
+
+    .tp-aja-header-with-dash {
+      text-align: center;
+      margin: 0 0 3rem;
+    }
+
+    .link-all-offers {
+
+    }
+  }
+}
+
+.site-contact {
+  margin-bottom: 7rem;
+
+  .tp-aja-header-with-dash {
+    text-align: center;
+    margin: 3rem 0;
+    color: @mainColorDark;
+
+    &:before {
+      background-color: @mainColorDark;
+    }
+  }
+
+  .contact-form-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    border-bottom: 1px solid @mainColorDark;
+    padding: 0;
+  }
+
+  input[type="text"] {
+    line-height: 5rem;
+    height: 5rem;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 5rem;
+  }
+
+  textarea {
+    resize: none;
+    margin: 3rem 0 0;
+    height: 10rem;
+  }
+
+  .form-control::-webkit-input-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control::-moz-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control:-ms-input-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control:-moz-placeholder {
+    color: @mainColorDark;
+  }
+
+  .form-group.select {
+    position: relative;
+
+    .fa {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 3rem;
+    }
+
+    select {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+    }
+  }
+
+  .upload-container {
+    line-height: 1;
+    height: 5rem;
+    padding: 1.5rem 0 0;
+    border-bottom: 1px solid @mainColorDark;
+  }
+
+  .captcha-container {
+    position: relative;
+    img {
+      position: absolute;
+      top: -1px;
+    }
+    input {
+      padding-left: 120px;
+    }
+  }
+
+  .form-submit {
+    text-align: right;
+    margin: 3rem 0 0;
+
+    .loading {
+      color: @mainColorDark;
+    }
+  }
+
+  .btn {
+    border-radius: 0;
+    box-shadow: none;
+    text-transform: uppercase;
+    padding: 1.2rem 5rem;
+
+    &.btn-primary {
+      border: 0;
+      background-color: @mainColorLight;
+      color: @mainColorDark;
+    }
+  }
+}
+
+.offices-index {
+  .map {
+    width: 100%;
+  }
+
+  .city-offices {
+    width: 100%;
+
+    .office {
+      flex: 0 0 100%;
+    }
+  }
+}
+
+.news-index {
+  .newsletter-form {
+    form {
+      flex-direction: column;
+      padding: 0 3rem;
+    }
+  }
+}
+
+.inner-page {
+  .content-header {
+    .content-header-banner {
+      .page-title {
+        &:before {
+          content: none;
+        }
+      }
+    }
+  }
+
+  .text-block {
+    font-size: 1.6rem!important;
+
+    ul {
+      margin: 0!important;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto!important;
+    }
+  }
+
+  .image {
+    max-width: 100%!important;
+    height: auto!important;
+  }
+}

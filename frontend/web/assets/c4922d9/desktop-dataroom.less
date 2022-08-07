@@ -1,0 +1,119 @@
+body.dataroom {
+  header {
+    .header-left {
+      background-color: @auxColor;
+    }
+
+    .header-right {
+      background-color: @auxColorLight;
+    }
+  }
+
+  .content-header {
+    .partners {
+      background-color: @auxColorLight;
+      color: white;
+    }
+  }
+
+  .content-wrapper {
+    .page-header {
+      .title-with-dash();
+
+      color: @auxColor;
+    }
+  }
+
+  .grid-view {
+    .summary {
+      display: none;
+    }
+
+    .pagination {
+      display: flex;
+      justify-content: flex-end;
+
+      li {
+        margin-left: 1rem;
+
+        * {
+          //padding: 8px 12px;
+          font-size: 1.2rem;
+          border: none;
+        }
+
+        &.active {
+          * {
+            background-color: @auxColor;
+            border-radius: .2rem;
+          }
+        }
+
+        &.prev {
+          margin-right: 1rem;
+        }
+      }
+    }
+
+    .table {
+      position: relative;
+      margin-bottom: 40px;
+      border: none;
+
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: -30px;
+        left: 0;
+        right: 0;
+        display: block;
+        border-top: 1px solid @mainColorLight;
+      }
+
+      thead {
+        tr {
+          background-color: #e9edf3;
+
+          th {
+            font-weight: 400;
+            text-transform: uppercase;
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-of-type(even) {
+            background-color: #f3f3f3;
+          }
+
+          &:nth-of-type(odd) {
+            background: none;
+          }
+        }
+
+        td {
+          font-weight: 300;
+        }
+      }
+
+      th, td {
+        border: none;
+      }
+    }
+  }
+
+  .footer {
+    .footer-top {
+      background-color: @auxColor;
+
+      * {
+        color: white;
+      }
+    }
+
+    .footer-bottom {
+      background-color: #143655;
+    }
+  }
+}

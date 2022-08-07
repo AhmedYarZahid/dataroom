@@ -1,0 +1,42 @@
+.comments-widget-wrapper {
+
+  .comments-list {
+    margin: 0 0 20px 0;
+    padding: 0;
+    list-style: none;
+
+    .comment {
+      margin-bottom: 10px;
+      border-top: 1px solid #ccc;
+
+      .comment-header {
+        * {
+          line-height: 40px;
+        }
+
+        .comment-author {
+          font-size: 16px;
+          font-weight: 600;
+          color: #333 !important;
+        }
+
+        .comment-date {
+          margin-left: 10px;
+          font-size: 14px !important;
+          color: #808080;
+        }
+      }
+
+      .comment-text {
+        margin: 0 0 10px 0;
+      }
+    }
+  }
+}
+
+/* Desktops */
+@media screen and (min-width: 1024px) {
+  #comment-form {
+    width: 600px;
+  }
+}

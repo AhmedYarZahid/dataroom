@@ -1,0 +1,50 @@
+#map {
+  display: inline-block;
+  position: relative;
+}
+
+.map-controls {
+  margin: 0 0 30px;
+  
+  input {
+    width: auto;
+    display: inline-block;
+  }
+
+  .btn {
+    vertical-align: top;
+  }
+}
+
+.marker-wrapper {
+  position: absolute;
+}
+.marker {
+  background: url(../img/marker.png) no-repeat;  
+  width: 15px;
+  height: 19px;
+  z-index: 10;
+}
+.marker-label {
+  font-weight: bold;
+  font-size: 12px;
+  position: absolute;
+  top: 20px;
+  cursor: default;
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.marker-wrapper .edit {
+  display: none;
+}
+.marker-wrapper.editing .view {
+  display: none;
+}
+.marker-wrapper.editing .edit {
+  display: block;
+  padding: 0;
+}
+[v-cloak] {
+  display: none;
+}

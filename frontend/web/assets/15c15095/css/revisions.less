@@ -1,0 +1,137 @@
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.revisions-wrapper {
+  .revisions-info {
+    margin-bottom: 40px;
+    padding: 10px 0;
+    background-color: #f5f5f5;
+
+    .rev-from {
+      margin-bottom: 10px;
+    }
+
+    .caption {
+      width: 80px;
+      height: 40px;
+      padding-right: 20px;
+      float: left;
+      text-align: right;
+      clear: both;
+    }
+
+    .info {
+      float: left;
+    }
+
+    .restore-button .btn {
+      margin: 5px 0 0 20px;
+    }
+  }
+
+  .revisions-line {
+    width: 90%;
+    margin: 50px auto;
+
+    .revisions-item {
+      display: inline-block;
+      width: 2%;
+      margin: 0 0 3px -3px;
+      height: 18px;
+      border: 1px solid #a0a5aa;
+      border-left: none;
+      cursor: pointer;
+
+      &:first-child {
+        border-left: 1px solid #a0a5aa;
+      }
+
+      &.active {
+        background-color: #3c8dbc;
+      }
+
+      .rev-from-to {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        top: 0!important;
+        left: 0!important;
+        background-color: #3c8dbc;
+      }
+    }
+
+    .popover {
+      .popover-title {
+        background: none;
+        border: none;
+        font-size: 18px!important;
+      }
+
+      .popover-content {
+        font-size: 16px!important;
+      }
+    }
+  }
+
+  .differences {
+    padding-bottom: 100px;
+    clear: both;
+
+    table {
+      table-layout: fixed;
+      width: 100%;
+      word-wrap: break-word;
+
+      thead {
+        th:nth-child(1) {
+          width: 45px;
+        }
+
+        th:nth-child(3) {
+          width: 45px;
+        }
+      }
+    }
+
+    th {
+      background-color: white;
+      text-align: center;
+      padding: 2px 10px;
+    }
+
+    .texttitle {
+      text-align: center;
+    }
+
+    .rev-from {
+      background-color: #ffe9e9;
+
+      del {
+        display: none;
+      }
+    }
+
+    .rev-to {
+      background-color: #e9ffe9;
+    }
+
+    ins {
+      background-color: #afa;
+      text-decoration: none;
+    }
+
+    del {
+      background-color: #faa;
+    }
+
+    .author {
+      display: none;
+    }
+  }
+}

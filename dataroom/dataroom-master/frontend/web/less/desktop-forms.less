@@ -1,0 +1,121 @@
+.site-contact {
+  margin-bottom: 7rem;
+
+  .tp-aja-header-with-dash {
+    text-align: center;
+    margin: 3rem 0;
+    color: @mainColorDark;
+
+    &:before {
+      background-color: @mainColorDark;
+    }
+  }
+
+  .contact-form-container {
+    display: flex;
+    justify-content: space-between;
+
+    .col {
+      flex: 0 0 45%;
+    }
+  }
+
+  .form-control {
+    border: 0;
+    border-radius: 0;
+    box-shadow: none !important;
+    border-bottom: 1px solid @mainColorDark;   
+    padding: 0; 
+  }
+
+  input[type="text"] {
+    line-height: 5rem;
+    height: 5rem;
+  }
+
+  select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 5rem;
+
+    &::-ms-expand {
+      display: none;
+    }
+  }
+
+  textarea {
+    resize: none;
+    margin: 3rem 0 0;
+    height: 10rem;
+  }
+
+  .form-control::-webkit-input-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control::-moz-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control:-ms-input-placeholder {
+    color: @mainColorDark;
+  }
+  .form-control:-moz-placeholder {
+    color: @mainColorDark;
+  }
+
+  .form-group.select {
+    position: relative;
+
+    .fa {
+      position: absolute;
+      right: 1rem;
+      top: 1rem;
+      font-size: 3rem;
+    }
+
+    select {
+      position: relative;
+      z-index: 1;
+      background: transparent;
+    }
+  }
+
+  .upload-container {
+    line-height: 1;
+    height: 5rem;
+    padding: 1.5rem 0 0;
+    border-bottom: 1px solid @mainColorDark;
+  }
+
+  .captcha-container {
+    position: relative;
+    img {
+      position: absolute;
+      top: -1px;
+    }
+    input {
+      padding-left: 120px;
+    }
+  }
+
+  .form-submit {
+    text-align: right;
+    margin: 3rem 0 0;
+
+    .loading {
+      color: @mainColorDark;
+    }
+  }
+
+  .btn {
+    border-radius: 0;
+    box-shadow: none;
+    text-transform: uppercase;
+    padding: 1.2rem 5rem;
+
+    &.btn-primary {
+      border: 0;
+      background-color: @mainColorLight;
+      color: @mainColorDark;
+    }
+  }
+}

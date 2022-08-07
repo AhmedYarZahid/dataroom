@@ -1,0 +1,106 @@
+#menu-wrapper {
+  width: 60%;
+  margin-top: 20px;
+}
+#menu-wrapper.loading {
+  position: relative;
+}
+#menu-wrapper.loading .spinner-overlay {
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.75);
+  z-index: 9999;
+}
+#menu-wrapper.loading .spinner-overlay .spinner {
+  position: absolute;
+  left: calc(50% - 16px);
+  top: calc(50% - 16px);
+  width: 32px;
+  height: 32px;
+  background-image: url(../images/spinner.gif);
+  background-size: contain;
+}
+#menu-wrapper .spinner-overlay {
+  display: none;
+}
+#menu-wrapper .sortable-placeholder {
+  height: 32px;
+  border: 1px dashed #ccc;
+  border-radius: 3px;
+  list-style: none;
+}
+#menu-wrapper .menu-tree {
+  padding: 0;
+}
+#menu-wrapper .menu-tree > .menu-item > .menu-item-info .move-menu-item.left {
+  pointer-events: none;
+  color: #ccc;
+}
+#menu-wrapper .menu-tree .menu-item {
+  margin: 5px 0;
+  list-style: none;
+}
+#menu-wrapper .menu-tree .menu-item .menu-subtree {
+  display: none;
+}
+#menu-wrapper .menu-tree .menu-item:first-child > .menu-item-info .move-menu-item.right {
+  pointer-events: none;
+  color: #ccc;
+}
+#menu-wrapper .menu-tree .menu-item.open > .menu-subtree {
+  display: block !important;
+}
+#menu-wrapper .menu-tree .menu-item.open > .menu-item-info > .toggler:before {
+  display: none !important;
+}
+#menu-wrapper .menu-tree .menu-item.open > .menu-item-info > .toggler:after {
+  display: inline-block !important;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .menu-item-label.has-items {
+  cursor: pointer;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .toggler:before,
+#menu-wrapper .menu-tree .menu-item .menu-item-info .toggler:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 0;
+  cursor: pointer;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .toggler:before {
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid #333;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .toggler:after {
+  display: none;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #333;
+  vertical-align: middle;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .buttons > * {
+  margin-left: 2px;
+  cursor: pointer;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .buttons .toggle-active-btn {
+  color: rgba(0, 0, 0, 0.25);
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .buttons .toggle-active-btn.active {
+  color: #3c763d;
+}
+#menu-wrapper .menu-tree .menu-item .menu-item-info .buttons .link {
+  margin-right: 10px;
+}
+#on-menu-sort-buttons {
+  margin-top: 20px;
+}

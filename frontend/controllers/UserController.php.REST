@@ -1,0 +1,550 @@
+<?php
+namespace frontend\controllers;
+
+use backend\modules\contact\models\ContactNotify;
+use backend\modules\contact\models\ContactThread;
+use backend\modules\staticpage\models\StaticPage;
+use frontend\models\PasswordResetRequestForm;
+use Yii;
+use yii\db\ActiveQuery;
+use yii\filters\auth\QueryParamAuth;
+use yii\rest\ActiveController;
+use backend\modules\notify\models\Notify;
+use frontend\models\AskSignupForm;
+use common\models\LoginForm;
+use yii\web\NotFoundHttpException;
+use yii\web\Response;
+use common\models\User;
+use frontend\models\ContactForm;
+use common\models\MedicalCategory;
+use common\models\MedicalCategorySearch;
+use common\models\MedicalRecord;
+use yii\base\Exception;
+use backend\modules\contact\models\Contact;
+
+/**
+ * User controller (API)
+ */
+class UserController extends ActiveController
+{
+    public $modelClass = 'common\models\User';
+
+    /**
+     * @var array Response data
+     */
+    private $response;
+
+    /**
+     * Response words
+     */
+    const R_SUCCESS = 'success';
+    const R_DATA = 'data';
+    const R_ERRORS = 'errors';
+    const R_MESSAGE = 'message';
+
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+
+        $this->response = [self::R_SUCCESS => 0, self::R_DATA => [], self::R_ERRORS => [], self::R_MESSAGE => ''];
+    }
+
+    /**
+     * Set response "success" param
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param bool|int $value
+     */
+    private function setResponseSuccess($value)
+    {
+        $this->response[self::R_SUCCESS] = intval($value);
+    }
+
+    /**
+     * Set response "data" param
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param mixed $data
+     */
+    private function setResponseData($data)
+    {
+        $this->response[self::R_DATA] = $data;
+    }
+
+    /**
+     * Set response "errors" param
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param array $errorsList
+     */
+    private function setResponseErrors($errorsList)
+    {
+        $this->response[self::R_ERRORS] = (array) $errorsList;
+    }
+
+    /**
+     * Set response "message" param
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param string $message
+     */
+    private function setResponseMessage($message)
+    {
+        $this->response[self::R_MESSAGE] = $message;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function actions()
+    {
+        $actions = parent::actions();
+
+        // disable all default actions (except 'options')
+        unset($actions['index'], $actions['view'], $actions['create'], $actions['update'], $actions['delete']);
+
+        return $actions;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    protected function verbs()
+    {
+        $verbs = parent::verbs();
+
+        $verbs['ask-new'] = ['POST'];
+        $verbs['login'] = ['POST'];
+        $verbs['request-password-reset'] = ['POST'];
+        $verbs['update-info'] = ['POST'];
+        $verbs['contact'] = ['POST'];
+        $verbs['contact-reply'] = ['POST'];
+        $verbs['create-medical-record'] = ['POST'];
+        $verbs['update-medical-record'] = ['POST'];
+
+        return $verbs;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function behaviors()
+    {
+        $behaviors = parent::behaviors();
+
+        $behaviors['authenticator'] = [
+            'class' => QueryParamAuth::className(),
+            'except' => ['ask-new', 'login', 'request-password-reset', 'advice-pages', 'contact', 'contact-reply']
+        ];
+
+        unset($behaviors['contentNegotiator']['formats']);
+        $behaviors['contentNegotiator']['formats']['application/json'] = Response::FORMAT_JSON;
+
+        return $behaviors;
+    }
+
+    /**
+     * Ask doctor to create profile
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionAskNew()
+    {
+        $model = new AskSignupForm();
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                Notify::sendAskForSignup($model);
+                $this->setResponseSuccess(true);
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Login user
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionLogin()
+    {
+        $model = new LoginForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->login()) {
+                $this->setResponseSuccess(true);
+                $this->setResponseData([
+                    'access-token' => Yii::$app->user->identity->accessToken
+                ]);
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Logout user
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->identity->generateAccessToken();
+        Yii::$app->user->logout();
+
+        $this->setResponseSuccess(true);
+
+        return $this->response;
+    }
+
+    /**
+     * Get personal info
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionInfo()
+    {
+        $this->setResponseSuccess(true);
+        $this->setResponseData(Yii::$app->user->identity);
+
+        return $this->response;
+    }
+
+    /**
+     * Update personal info
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionUpdateInfo()
+    {
+        /* @var $model User */
+        $model = Yii::$app->user->identity;
+        $model->scenario = 'update-profile';
+
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                $this->setResponseSuccess(true);
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Get categories
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param string $type
+     * @return array
+     */
+    public function actionCategories($type = null)
+    {
+        $this->setResponseSuccess(true);
+        $this->setResponseData(MedicalCategory::getList($type));
+
+        return $this->response;
+    }
+
+    /**
+     * Get medical records info
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param string $type
+     * @param int $categoryID
+     * @return array
+     */
+    public function actionMedicalRecords($type = 'personal-history', $categoryID = null)
+    {
+        $userModel = Yii::$app->user->identity;
+
+        if (!array_key_exists($type, MedicalCategory::getTypes())) {
+            $type = MedicalCategory::TYPE_PERSONAL_HISTORY;
+        }
+
+        $withoutHistory = true;
+        if (in_array($type, MedicalCategory::getHistoryTypes())) {
+            $withoutHistory = false;
+        }
+
+        if ($withoutHistory) {
+            $searchModel = new MedicalCategorySearch();
+            $dataProvider = $searchModel->searchUserRecords($userModel->id, $type, []);
+
+            $result['recordsData'] = $dataProvider->query->all();
+            $result['chartData'] = [];
+        } else {
+            // Check category exists
+            if (!$categoryID || !MedicalCategory::isCategoryExists($categoryID, $type)) {
+                $categoryModel = MedicalCategory::find()
+                    ->where('type = :type AND parentID IS NOT NULL', [':type' => $type])
+                    ->orderBy('rank ASC, title ASC')
+                    ->one();
+            } else {
+                $categoryModel = MedicalCategory::findOne($categoryID);
+            }
+
+            $query = MedicalRecord::getPatientRecordsQuery($userModel->id, $categoryModel->id);
+
+            $result['recordsData'] = $query->all();
+            $result['chartData'] = MedicalRecord::getChartData($userModel->id, $categoryModel->id, $userModel->fullName);
+        }
+
+        $this->setResponseSuccess(true);
+        $this->setResponseData($result);
+
+        return $this->response;
+    }
+
+    /**
+     * Create new Medical Record
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionCreateMedicalRecord()
+    {
+        /* @var $userModel User */
+        $userModel = Yii::$app->user->identity;
+
+        /* @var $model MedicalRecord */
+        $model = new MedicalRecord();
+        $model->loadDefaultValues();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->userID = $userModel->id;
+
+            if ($model->validate()) {
+
+                if (!MedicalCategory::isCategorySupportHistory($model->categoryID)) {
+                    throw new Exception("Invalid request. You can't add record to specified category.");
+                }
+
+                $model->saveUploadedPicture();
+                $model->saveUploadedDocument();
+
+                if ($model->save(false)) {
+                    $this->setResponseSuccess(true);
+                }
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Update Medical Record data
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param int $id
+     *
+     * @return array
+     * @throws Exception
+     */
+    public function actionUpdateMedicalRecord($id)
+    {
+        /* @var $userModel User */
+        $userModel = Yii::$app->user->identity;
+
+        /* @var $model MedicalRecord */
+        $model = MedicalRecord::find()
+            ->innerJoinWith([
+                'category' => function (ActiveQuery $query) {
+                    $query->onCondition('type IN (:type1, :type2)', [':type1' => MedicalCategory::TYPE_MEDICAL_RECORDS, ':type2' => MedicalCategory::TYPE_FOLLOW_UP]);
+                },
+            ])
+            ->where('MedicalRecord.id = :id AND MedicalRecord.userID = :userID', [':id' => $id, ':userID' => $userModel->id])
+            ->one();
+
+        if (!$model) {
+            throw new Exception("Can't find record. Invalid request.");
+        }
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->userID = $userModel->id;
+            $model->categoryID = $model->getOldAttribute('categoryID');
+
+            if ($model->validate()) {
+
+                $pictureUploaded = $model->saveUploadedPicture();
+                $documentUploaded = $model->saveUploadedDocument();
+
+                if ($model->save(false)) {
+
+                    if ($pictureUploaded) {
+                        $model->removeOldPicture();
+                    }
+
+                    if ($documentUploaded) {
+                        $model->removeOldDocument();
+                    }
+
+                    $this->setResponseSuccess(true);
+                }
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Send email to user with link to reset password
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionRequestPasswordReset()
+    {
+        $model = new PasswordResetRequestForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->validate()) {
+                if ($model->sendEmail()) {
+                    $this->setResponseSuccess(true);
+                    $this->setResponseMessage(Yii::t('app', 'Check your email for further instructions.'));
+                } else {
+                    $this->setResponseSuccess(false);
+                    $this->setResponseErrors([Yii::t('app', 'Sorry, we are unable to reset password for email provided.')]);
+                }
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Get advice static pages
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionAdvicePages()
+    {
+        $this->setResponseSuccess(true);
+        $this->setResponseData(StaticPage::getAdvicePages());
+
+        return $this->response;
+    }
+
+    /**
+     * Send email to admin (Contact Us)
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @return array
+     */
+    public function actionContact()
+    {
+        //$model = new ContactForm();
+        $model = new Contact();
+
+        if ($model->load(Yii::$app->request->post())) {
+
+            $model->toUserID = Contact::DUMMY_ADMIN;
+            $model->fromUserID = Yii::$app->user->isGuest ? Contact::DUMMY_GUEST : Yii::$app->user->identity->getId();
+            $model->generateCode();
+
+            if ($model->save()) {
+                if (ContactNotify::sendNewContactMessage($model)) {
+                    $this->setResponseSuccess(true);
+                    $this->setResponseMessage(Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
+                } else {
+                    $this->setResponseSuccess(false);
+                    $this->setResponseErrors([Yii::t('app', 'There was an error sending email.')]);
+                }
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($model->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+
+    /**
+     * Send new message in contact thread (message to admin)
+     *
+     * @author Vadim Bulochnik <vadim.bulochnik@gmail.com>
+     *
+     * @param int $id
+     * @param string $code
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    public function actionContactReply($id, $code)
+    {
+        if (!$model = Contact::find()->andWhere(['id' => $id, 'code' => trim($code), 'isClosed' => 0])->one()) {
+            throw new NotFoundHttpException("Page not found");
+        }
+
+        $answerModel = new ContactThread();
+        if ($answerModel->load(Yii::$app->request->post())) {
+
+            $answerModel->contactID = $model->id;
+            $answerModel->sender = ContactThread::SENDER_USER;
+            $answerModel->createdDate = date('Y-m-d H:i:s');
+            $answerModel->isLastMessage = 1;
+
+            if ($answerModel->validate()) {
+
+                if (ContactNotify::sendNewUserReply($answerModel)) {
+
+                    $answerModel->save(false);
+
+                    $this->setResponseSuccess(true);
+                    $this->setResponseMessage(Yii::t('app', 'Thank you for contacting us. We will respond to you as soon as possible.'));
+                } else {
+                    $this->setResponseSuccess(false);
+                    $this->setResponseErrors([Yii::t('app', 'There was an error sending email.')]);
+                }
+            } else {
+                $this->setResponseSuccess(false);
+                $this->setResponseErrors($answerModel->getErrors());
+            }
+        }
+
+        return $this->response;
+    }
+}

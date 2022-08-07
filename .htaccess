@@ -1,0 +1,23 @@
+
+RewriteCond %{HTTP:Authorization} .
+RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
+SetEnvIf Authorization .+ HTTP_AUTHORIZATION=$0
+
+# If a directory or a file exists, use the request directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteEngine On
+
+
+
+RewriteRule ^dataroom/phpMyAdmin(/.+)?$ dataroom/phpMyAdmin/$1 [L,PT]
+RewriteRule ^dataroom/phpMyAdmin/(.+)?$ dataroom/phpMyAdmin/$1 [L,PT]
+
+RewriteRule ^api(/.+)?$ api/web/$1 [L,PT]
+RewriteRule ^api/(.+)?$ api/web/$1 [L,PT]
+
+RewriteRule ^admin(/.+)?$ backend/web/$1 [L,PT]
+RewriteRule ^admin/(.+)?$ backend/web/$1 [L,PT]
+
+RewriteRule ^(.+)?$ frontend/web/$1

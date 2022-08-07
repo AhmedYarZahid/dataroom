@@ -1,0 +1,26 @@
+{
+     	"name": "tiagocardosos/yii2-widget-isloading",
+    	"description": "Simple widget ajaxStatus. Show visual feedback when loading data or any action that would take time.",
+        "keywords": ["yii", "isloading", "preloading", "ajaxStatus"],
+        "type": "yii2-extension",
+        "license": "MIT",
+		"support": {
+			"source": "https://github.com/tiagocardosos/yii2-widget-isloading"
+		},        
+        "authors": [
+                {
+                        "name": "Tiago Cardoso",
+                        "email": "tiagocardosos@gmail.com"
+                }
+        ],
+		"minimum-stability": "dev",
+		"prefer-stable" : true,        
+		"require": {
+			"php": ">=5.4.0",
+			"bower-asset/is-loading": "*",
+			"yiisoft/yii2": "*"
+		},
+		"autoload": {
+			"psr-4": { "tiagocardosos\\isloading\\": "" }
+		}
+}

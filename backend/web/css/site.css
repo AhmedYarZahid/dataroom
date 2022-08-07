@@ -1,0 +1,267 @@
+html,
+body {
+    /*height: 100%;*/
+}
+
+.wrap {
+    min-height: 100%;
+    height: auto;
+    margin: 0 auto -60px;
+    padding: 0 0 60px;
+}
+
+.wrap > .container {
+    padding: 70px 15px 20px;
+}
+
+.footer {
+    height: 60px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+    padding-top: 20px;
+}
+
+.jumbotron {
+    text-align: center;
+    background-color: transparent;
+}
+
+.jumbotron .btn {
+    font-size: 21px;
+    padding: 14px 24px;
+}
+
+.not-set {
+    color: #c55;
+    font-style: italic;
+}
+
+/* add sorting icons to gridview sort links */
+a.asc:after, a.desc:after {
+    position: relative;
+    top: 1px;
+    display: inline-block;
+    font-family: 'Glyphicons Halflings';
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    padding-left: 5px;
+}
+
+a.asc:after {
+    content: /*"\e113"*/ "\e151";
+}
+
+a.desc:after {
+    content: /*"\e114"*/ "\e152";
+}
+
+.sort-numerical a.asc:after {
+    content: "\e153";
+}
+
+.sort-numerical a.desc:after {
+    content: "\e154";
+}
+
+.sort-ordinal a.asc:after {
+    content: "\e155";
+}
+
+.sort-ordinal a.desc:after {
+    content: "\e156";
+}
+
+.grid-view th {
+    white-space: nowrap;
+}
+
+.hint-block {
+    display: block;
+    margin-top: 5px;
+    color: #999;
+}
+
+.error-summary {
+    color: #a94442;
+    background: #fdf7f7;
+    border-left: 3px solid #eed3d7;
+    padding: 10px 20px;
+    margin: 0 0 15px 0;
+}
+
+/* Contact Us module */
+#new-template-popover.popover {
+    max-width: 800px;
+    width: 650px;
+    z-index: 1060 !important;
+}
+
+#contact-index .popover {
+    max-width: 800px;
+    width: 600px;
+}
+
+#contact-index .popover-content {
+    height: 500px;
+    overflow-y: scroll;
+}
+/* END Contact Us module */
+
+.file-preview-image {
+    height: 160px;
+}
+
+.file-preview-frame {
+    border: 1px solid #ddd;
+    box-shadow: 1px 1px 5px 0 #a2958a;
+    display: table;
+    float: left;
+    height: 160px;
+    margin: 8px;
+    padding: 6px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+hr.admin-widgets-separator {
+    width: 97%;
+}
+
+.change-language b {
+    color: white;
+}
+
+.right-side > .content-header {
+    min-height: 50px;
+}
+
+/* google map fix */
+#map_canvas img {
+    max-width:none !important;
+}
+
+form .required .control-label:after {
+    content:" * ";
+}
+
+
+/* Room form */
+.box .box-body .table.history {
+    margin-bottom: 3rem;
+}
+.table.history .form-group {
+    margin: 0;
+}
+.table.history .form-group > div {
+    margin: 0;
+    padding: 0;
+    width: auto;
+}
+.address-wrapper .open-modal {
+    position: absolute;
+    right: -100px;
+    top: -44px;
+}
+.address-wrapper .modal-header h4 {
+    margin: 0;
+}
+.address-wrapper #address-placeholder {
+    font-size: 16px;
+    margin: 0 0 10px;
+}
+.room-form .checkbox {
+    padding: 0;
+}
+.room-form .checkbox label {
+    padding-left: 0;
+}
+.room-form .field-room-proposalsallowed .help-block {
+    display: none;
+}
+
+
+/* Proposal form */
+.field-proposalcompany-userid .help-block {
+    margin: 0;
+}
+
+.fancytree-edit-input {
+    color: #000000;
+}
+
+span.pending span.fancytree-title {
+    font-style: italic;
+}
+span.pending span.fancytree-title:after {
+    content: "\2026"; /* ellipsis */
+}
+
+.document-form .field-document-filepath .btn-file {
+    /*height: 74px;*/
+}
+
+.nav-tabs li.error a {
+    color: #f56954 !important;
+}
+
+.table .actions a {
+    padding: 0 3px;
+}
+
+
+.btn.btn-velvet {
+    background-color: #8000FF;
+    border-color: #5A009D;
+    color: white;
+}
+
+.btn-velvet:hover {
+    background-color: #8B00FF;
+}
+
+.ms-container {
+    width: 100%;
+}
+.ms-container .ms-list {
+    border-radius: 0 0 3px 3px;
+}
+.multiselect-header {
+    border: 1px solid #ccc;
+    border-radius: 3px 3px 0 0;
+    border-bottom: 0;
+    padding: 5px 10px;
+    position: relative;
+}
+.multiselect-header .select-all,
+.multiselect-header .deselect-all {
+    position: absolute;
+    right: 0;
+    padding: 0 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+.select2-container--krajee .select2-selection--multiple .select2-selection__choice__remove {
+    margin-top: 0;
+    cursor: pointer;
+}
+
+.user-form .section-fields {
+    margin-top: 35px;
+}
+
+.skin-blue .sidebar .dropdown-menu .active a {
+    color: #FFFFFF;
+}
+
+#rooms-menu-wrapper .room-space {
+    font-weight: bold;
+}
+
+.mailing-list-form fieldset hr {
+    margin-top: 0;
+}
+
+.fancytree-unselectable span.fancytree-checkbox {
+    display: none;
+}
