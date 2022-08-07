@@ -109,7 +109,7 @@ $config = [
         ],
 		  'urlManager' => [
             'baseUrl' => '/admin',
-            'enablePrettyUrl' => true,
+            'enablePrettyUrl' => false,
             'showScriptName' => false,
             'rules' => [
 
