@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-user"></i> ' . $this->title;
             'email:email',
             'profession' => [
                 'attribute' => 'profession',
-                'value' => User::getProfessionCaption($model->profession),
+                'value' => $model->profession ? User::getProfessionCaption($model->profession) : "",
                 'format' => 'html'
             ],
             'companyName',
@@ -82,12 +82,36 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-user"></i> ' . $this->title;
                 'attribute' => 'updatedDate',
                 'format' => ['datetime', 'php:d/m/Y H:i:s'],
             ],
-            "targetSector",
-            "targetAmount",
-            "entryTicket",
-            "turnoverName",
-            "geographicalAreaName",
-            "effective",
+            [
+                'attribute' => 'targetSector',
+                'value' => $model->targetSector ? $model->targetSector : "",
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'targetAmount',
+                'value' => $model->targetAmount ? $model->targetAmount : "",
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'entryTicket',
+                'value' => $model->entryTicket ? $model->entryTicket : "",
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'turnoverName',
+                'value' => $model->turnoverName ? $model->turnoverName : "",
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'geographicalAreaName',
+                'value' => $model->geographicalAreaName ? $model->geographicalAreaName : "",
+                'format' => 'html'
+            ],
+            [
+                'attribute' => 'effective',
+                'value' => $model->effective ? $model->effective : "",
+                'format' => 'html'
+            ],
         ],
     ]) ?>
 
