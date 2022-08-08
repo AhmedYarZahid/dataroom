@@ -1,8 +1,16 @@
 <?php
 
 use backend\assets\MultiSelectAsset;
+use backend\modules\contact\models\Contact;
+use backend\modules\dataroom\models\ProfileCompany;
+use backend\modules\dataroom\models\ProfileRealEstate;
+use backend\modules\dataroom\models\RoomCoownership;
+use backend\modules\mailing\controllers\ListController;
+use common\models\Region;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use yii\web\JsExpression;
 use yii\widgets\Pjax;
 use backend\modules\mailing\models\MailingContactForm;
 use common\helpers\ArrayHelper;
@@ -17,7 +25,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
     'depends' => backend\assets\AppAsset::class
 
 ]);
-
 ?>
 
     <div class="mailing-list-form">
@@ -27,7 +34,6 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
             'validateOnSubmit' => false,
             'layout' => 'horizontal',
         ]); ?>
-
         <?= $form->field($model, 'name')->textInput() ?>
 
         <div class="pjax-triggers">
@@ -50,15 +56,108 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 <div id="companies-filters-block">
                     <fieldset>
                         <legend><?= Yii::t('admin', 'Filters') ?></legend>
-                        <?= $form->field($contactForm, 'targetedSector')->dropDownList($contactForm->sectorList(), [
-                            "multiple" => false
-                        ]) ?>
-                        <?= $form->field($contactForm, 'targetedTurnover')->dropDownList($contactForm->turnoverList()) ?>
-                        <?= $form->field($contactForm, 'entranceTicket')->dropDownList($contactForm->ticketList()) ?>
-
-                        <?= $form->field($contactForm, 'geographicalArea')->dropDownList(\backend\modules\dataroom\models\ProfileCompany::getGeographicalAreaList(), ['prompt' => '']) ?>
-                        <?= $form->field($contactForm, 'targetAmount')->dropDownList(\backend\modules\dataroom\models\ProfileCompany::getTargetAmountList(), ['prompt' => '']) ?>
-
+                        <?php
+                        $targetedSector = $contactForm->sectorList();
+                        unset($targetedSector[""]);
+                        ?>
+                        <?= $form->field($contactForm, 'targetedSector')->widget(Select2::class, [
+                            'data' => $targetedSector,
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->targetedSector))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No targeted sector found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?php
+                        $targetedTurnover = $contactForm->turnoverList();
+                        unset($targetedTurnover[""]);
+                        ?>
+                        <?= $form->field($contactForm, 'targetedTurnover')->widget(Select2::class, [
+                            'data' => $targetedTurnover,
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->targetedTurnover))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No target turnover found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?php
+                        $entranceTicket = $contactForm->ticketList();
+                        unset($entranceTicket[""]);
+                        ?>
+                        <?= $form->field($contactForm, 'entranceTicket')->widget(Select2::class, [
+                            'data' => $entranceTicket,
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->entranceTicket))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No entrance ticket found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'geographicalArea')->widget(Select2::class, [
+                            'data' => ProfileCompany::getGeographicalAreaList(),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->geographicalArea))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No geographical area found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'targetAmount')->widget(Select2::class, [
+                            'data' => ProfileCompany::getTargetAmountList(),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->targetAmount))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No target amount found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
                         <div class="form-group field-mailingcontactform-effective">
                             <label class="control-label col-sm-3" for="mailingcontactform-effective">Effectif</label>
                             <div class="col-sm-9">
@@ -74,29 +173,96 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 <div id="realestate-filters-block">
                     <fieldset>
                         <legend><?= Yii::t('admin', 'Filters') ?></legend>
-                        <?= $form->field($contactForm, 'targetSector')->dropDownList(\backend\modules\dataroom\models\ProfileRealEstate::getTargetSectors(), ['prompt' => '']) ?>
-
-                        <?= $form->field($contactForm, 'regionIDs')->widget(\kartik\widgets\Select2::class, [
-                            'data' => ArrayHelper::map(\common\models\Region::find()->all(), 'id', 'nameWithCode'),
+                        <?= $form->field($contactForm, 'targetSector')->widget(Select2::class, [
+                            'data' => ProfileRealEstate::getTargetSectors(),
                             'options' => [
                                 'multiple' => true,
                                 'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->targetSector))
                             ],
                             'pluginOptions' => [
                                 'allowClear' => true,
                                 'tags' => false,
                                 'language' => [
-                                    'noResults' => new \yii\web\JsExpression('function() {
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No target sector found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'regionIDs')->widget(Select2::class, [
+                            'data' => ArrayHelper::map(Region::find()->all(), 'id', 'nameWithCode'),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->regionIDs))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
                                                 return "' . Yii::t('admin', 'No regions found.') . '";
                                             }'),
                                 ],
                             ],
                             'pluginEvents' => [],
                         ]); ?>
-
-                        <?= $form->field($contactForm, 'targetedAssetsAmount')->dropDownList(\backend\modules\dataroom\models\ProfileRealEstate::getTargetedAssetsAmountList(), ['prompt' => '']) ?>
-                        <?= $form->field($contactForm, 'assetsDestination')->dropDownList(\backend\modules\dataroom\models\ProfileRealEstate::getAssetsDestinationList(), ['prompt' => '']) ?>
-                        <?= $form->field($contactForm, 'operationNature')->dropDownList(\backend\modules\dataroom\models\ProfileRealEstate::getOperationNatureList(), ['prompt' => '']) ?>
+                        <?= $form->field($contactForm, 'targetedAssetsAmount')->widget(Select2::class, [
+                            'data' => ProfileRealEstate::getTargetedAssetsAmountList(),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->targetedAssetsAmount))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No targeted assets amount found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'assetsDestination')->widget(Select2::class, [
+                            'data' => ProfileRealEstate::getAssetsDestinationList(),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->assetsDestination))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No assets destination found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'operationNature')->widget(Select2::class, [
+                            'data' => ProfileRealEstate::getOperationNatureList(),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->operationNature))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No operation nature found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
                         <hr/>
                     </fieldset>
                 </div>
@@ -104,19 +270,36 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                 <div id="coownership-filters-block">
                     <fieldset>
                         <legend><?= Yii::t('admin', 'Filters') ?></legend>
-                        <?= $form->field($contactForm, 'propertyType')->dropDownList(\backend\modules\dataroom\models\RoomCoownership::getPropertyTypes(), ['prompt' => '']) ?>
-
-                        <?= $form->field($contactForm, 'coownershipRegionIDs')->widget(\kartik\widgets\Select2::class, [
-                            'data' => ArrayHelper::map(\common\models\Region::find()->all(), 'id', 'nameWithCode'),
+                        <?= $form->field($contactForm, 'propertyType')->widget(Select2::class, [
+                            'data' => RoomCoownership::getPropertyTypes(),
                             'options' => [
                                 'multiple' => true,
                                 'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->propertyType))
                             ],
                             'pluginOptions' => [
                                 'allowClear' => true,
                                 'tags' => false,
                                 'language' => [
-                                    'noResults' => new \yii\web\JsExpression('function() {
+                                    'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No property type found.') . '";
+                                            }'),
+                                ],
+                            ],
+                            'pluginEvents' => [],
+                        ]); ?>
+                        <?= $form->field($contactForm, 'coownershipRegionIDs')->widget(Select2::class, [
+                            'data' => ArrayHelper::map(Region::find()->all(), 'id', 'nameWithCode'),
+                            'options' => [
+                                'multiple' => true,
+                                'placeholder' => '',
+                                'options' => ListController::makeSelections(explode(",", $filters->coownershipRegionIDs))
+                            ],
+                            'pluginOptions' => [
+                                'allowClear' => true,
+                                'tags' => false,
+                                'language' => [
+                                    'noResults' => new JsExpression('function() {
                                                 return "' . Yii::t('admin', 'No regions found.') . '";
                                             }'),
                                 ],
@@ -133,23 +316,23 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
         </div>
 
         <?php yii\widgets\Pjax::begin(['id' => 'pjax-users']) ?>
-        <?= $form->field($model, 'contactIds')->dropDownList($contactForm->contactList(), ['multiple' => true])->label(false) ?>
+            <?= $form->field($model, 'contactIds')->dropDownList($contactForm->contactList(), ['multiple' => true])->label(false) ?>
         <?php Pjax::end(); ?>
-
-
-
-
 
         <div class="form-group field-extramailinglist-name required">
             <label class="control-label col-sm-3" for="mailinglist-name">Extra contact IDs</label>
             <div class="col-sm-6">
                 <select  name="extraContacts[]" class="col-md-12" multiple="multiple" id="extra-contact-tags">
-
+                    <?php
+                    $contacts = ArrayHelper::map(Contact::find()->all(), 'id', 'email');
+                    $extraContacts = explode(",", $filters->extraContacts);
+                    foreach ($contacts as $contact){
+                        $selected = in_array($contact, $extraContacts) ? "selected" : "";
+                        echo "<option value='$contact' $selected>$contact</option>";
+                    } ?>
                 </select>
             </div>
-
         </div>
-
 
         <div class="form-group">
             <div class="col-md-12">

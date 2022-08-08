@@ -91,10 +91,10 @@ class ListController extends \backend\controllers\Controller
 
         $contactForm->load($data);
         $model->load($data);
+        if(!empty($data)) $model = $this->actionSetFiltersJson($model, $data);
         $contactForm->contactIds = $model->contactIds;
 
         if (!Yii::$app->request->isAjax && !empty($data) && $this->manager->create($model)) {
-
 
             foreach ($data['extraContacts'] as $extraContact) {
                 $newsletter = new \common\models\Newsletter();
@@ -106,7 +106,6 @@ class ListController extends \backend\controllers\Controller
                 $newsletter->save();
 
                 $mailingContact = new  \backend\modules\mailing\models\MailingContact();
-//                $mailingContact->createdDate = date("Y-m-d H:i:s");
                 $mailingContact->code = \Yii::$app->security->generateRandomString(32);
                 $mailingContact->newsletterID = $newsletter->id;
                 $mailingContact->listID = $model->id;
@@ -114,7 +113,6 @@ class ListController extends \backend\controllers\Controller
                     print_r($mailingContact->errors);
                 }
             }
-
 
             Yii::$app->session->setFlash('success', Yii::t('admin', 'New list has been created successfully.'));
 
@@ -125,6 +123,39 @@ class ListController extends \backend\controllers\Controller
             'model' => $model,
             'contactForm' => $contactForm,
         ]);
+    }
+
+    /**
+     * @param $model
+     * @param $post
+     * @return void
+     * create and store filters json in mailing list
+     */
+    public function actionSetFiltersJson($model, $post)
+    {
+        $filters = [];
+        $filters['profile'] = $post['MailingContactForm']['profile'];
+        $filters['profession'] = $post['MailingContactForm']['profession'];
+        $filters['activity'] = $post['MailingContactForm']['activity'];
+        $filters['targetedSector'] = implode(',', $post['MailingContactForm']['targetedSector']);
+        $filters['targetedTurnover'] = implode(',', $post['MailingContactForm']['targetedTurnover']);
+        $filters['entranceTicket'] = implode(',', $post['MailingContactForm']['entranceTicket']);
+        $filters['geographicalArea'] = implode(',', $post['MailingContactForm']['geographicalArea']);
+        $filters['targetAmount'] = implode(',', $post['MailingContactForm']['targetAmount']);
+        $filters['effectiveMin'] = $post['MailingContactForm']['effectiveMin'];
+        $filters['effectiveMax'] = $post['MailingContactForm']['effectiveMax'];
+        $filters['targetSector'] = implode(',', $post['MailingContactForm']['targetSector']);
+        $filters['regionIDs'] = implode(',', $post['MailingContactForm']['regionIDs']);
+        $filters['targetedAssetsAmount'] = implode(',', $post['MailingContactForm']['targetedAssetsAmount']);
+        $filters['assetsDestination'] = implode(',', $post['MailingContactForm']['assetsDestination']);
+        $filters['operationNature'] = implode(',', $post['MailingContactForm']['operationNature']);
+        $filters['propertyType'] = implode(',', $post['MailingContactForm']['propertyType']);
+        $filters['coownershipRegionIDs'] = implode(',', $post['MailingContactForm']['coownershipRegionIDs']);
+        $filters['lotsNumber'] = $post['MailingContactForm']['lotsNumber'];
+        $filters['coownersNumber'] = $post['MailingContactForm']['coownersNumber'];
+        $filters['extraContacts'] = implode(',', $post['extraContacts']);
+        $model->filters_json = json_encode($filters);
+        return $model;
     }
 
     /**
@@ -141,13 +172,16 @@ class ListController extends \backend\controllers\Controller
         if ($data) {
             $contactForm->load($data);
             $model->load($data);
+            $this->actionSetFiltersJson($model, $data);
         } else {
             $model->loadContacts();
+            $filters = $this->setSelectedFilters($model, $contactForm);
         }
 
         $contactForm->contactIds = $model->contactIds;
 
         if (!Yii::$app->request->isAjax && !empty($data) && $this->manager->update($model)) {
+
             Yii::$app->session->setFlash('success', Yii::t('admin', 'The list has been updated successfully.'));
 
             return $this->redirect(['view', 'id' => $model->id]);
@@ -156,8 +190,42 @@ class ListController extends \backend\controllers\Controller
         return $this->render('update', [
             'model' => $model,
             'contactForm' => $contactForm,
+            'filters' => $filters
         ]);
     }
+
+    /**
+     * @param $model
+     * @param $contactForm
+     * @return mixed
+     * set selected filters
+     */
+    function setSelectedFilters($model, $contactForm)
+    {
+        $filters = json_decode($model->filters_json);
+        $contactForm->profile = $filters->profile;
+        $contactForm->profession = $filters->profession;
+        $contactForm->activity = $filters->activity;
+        $contactForm->effectiveMin = $filters->effectiveMin;
+        $contactForm->effectiveMax = $filters->effectiveMax;
+        $contactForm->lotsNumber = $filters->lotsNumber;
+        $contactForm->coownersNumber = $filters->coownersNumber;
+        return $filters;
+    }
+
+    /**
+     * @param $selections
+     * @return array
+     * set selected array values as true for multiselect options
+     */
+    function makeSelections($selections) {
+        $options = [];
+        foreach ($selections as $selection) {
+            $options[$selection] = ['selected' => true];
+        }
+        return $options;
+    }
+
 
     /**
      * Deletes a list.
