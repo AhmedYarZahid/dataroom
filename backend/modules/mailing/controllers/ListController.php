@@ -154,7 +154,7 @@ class ListController extends \backend\controllers\Controller
         $filters['lotsNumber'] = $post['MailingContactForm']['lotsNumber'];
         $filters['coownersNumber'] = $post['MailingContactForm']['coownersNumber'];
         $filters['extraContacts'] = implode(',', $post['extraContacts']);
-        $model->filters_json = json_encode($filters);
+        $model->filtersJson = json_encode($filters);
         return $model;
     }
 
@@ -202,7 +202,7 @@ class ListController extends \backend\controllers\Controller
      */
     function setSelectedFilters($model, $contactForm)
     {
-        $filters = json_decode($model->filters_json);
+        $filters = json_decode($model->filtersJson);
         $contactForm->profile = $filters->profile;
         $contactForm->profession = $filters->profession;
         $contactForm->activity = $filters->activity;

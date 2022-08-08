@@ -14,6 +14,7 @@ use common\models\User;
  * @property integer $createdByUserID
  * @property string $createdDate
  * @property string $updatedDate
+ * @property string $filtersJson
  *
  * @property Newsletter $newsletter
  * @property User $createdByUser
@@ -54,7 +55,7 @@ class MailingList extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            ['extraContactIds','safe'],
+            [['extraContactIds', 'filtersJson'],'safe'],
             [['name', 'createdByUserID'], 'required'],
             [['createdByUserID'], 'integer'],
             [['createdDate', 'updatedDate'], 'safe'],

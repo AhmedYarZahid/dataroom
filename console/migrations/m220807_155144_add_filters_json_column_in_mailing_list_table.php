@@ -12,7 +12,7 @@ class m220807_155144_add_filters_json_column_in_mailing_list_table extends Migra
      */
     public function safeUp()
     {
-        $this->addColumn('MailingList', 'filters_json', $this->text());
+        $this->addColumn('MailingList', 'filtersJson', $this->text());
 
     }
 
@@ -21,7 +21,7 @@ class m220807_155144_add_filters_json_column_in_mailing_list_table extends Migra
      */
     public function safeDown()
     {
-        $this->dropColumn('MailingList', 'filters_json');
+        $this->dropColumn('MailingList', 'filtersJson');
     }
 
     /*
