@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\modules\dataroom\models\ProfileCompany;
 use common\models\Newsletter;
 use kartik\helpers\Html;
 use Yii;
@@ -120,8 +121,11 @@ class UserController extends Controller
 
         $profiles = $this->userManager->getAvailableProfiles($model);
 
-        if ($model->load(Yii::$app->request->post())) {
+        $post = Yii::$app->request->post();
 
+        if($post) $post = $this->implodeBuyerProfileMultiValues($post);
+
+        if ($model->load($post)) {
             $model->generateConfirmationCode();
             $model->generateAuthKey();
             $model->setPassword($model->password);
@@ -150,6 +154,8 @@ class UserController extends Controller
             }
         }
 
+        $model = $this->explodeBuyerProfileMultiValues($model);
+
         $photosInitData = [
             'preview' => [],
             'config' => [],
@@ -160,6 +166,21 @@ class UserController extends Controller
             'profiles' => $profiles,
             'photosInitData' => $photosInitData,
         ]);
+    }
+
+    /**
+     * @param $post
+     * @return array
+     * set buyer profile multi values in post
+     */
+    public function implodeBuyerProfileMultiValues($post)
+    {
+        $post['User']['targetedSector'] = implode(',', $post['User']['targetedSector']);
+        $post['User']['targetedTurnover'] = implode(',', $post['User']['targetedTurnover']);
+        $post['User']['entranceTicket'] = implode(',', $post['User']['entranceTicket']);
+        $post['User']['geographicalArea'] = implode(',', $post['User']['geographicalArea']);
+        $post['User']['targetAmount'] = implode(',', $post['User']['targetAmount']);
+        return $post;
     }
 
     /**
@@ -188,7 +209,11 @@ class UserController extends Controller
             $model->setScenario('update-profile-admin');
         }
 
-        if ($model->load(Yii::$app->request->post())) {
+        $post = Yii::$app->request->post();
+
+        if($post) $post = $this->implodeBuyerProfileMultiValues($post);
+
+        if ($model->load($post)) {
 
             if ($model->scenario == 'update-password') {
                 $model->setPassword($model->password);
@@ -212,6 +237,8 @@ class UserController extends Controller
             }
         }
 
+        $model = $this->explodeBuyerProfileMultiValues($model);
+
         $photosInitData = [
             'preview' => [],
             'config' => [],
@@ -232,6 +259,21 @@ class UserController extends Controller
             'profiles' => $profiles,
             'photosInitData' => $photosInitData,
         ]);
+    }
+
+    /**
+     * @param $model
+     * @return mixed
+     * set buyer profile multi values in model
+     */
+    public function explodeBuyerProfileMultiValues($model)
+    {
+        $model->targetedSector = explode(",", $model->targetedSector);
+        $model->targetedTurnover = explode(",", $model->targetedTurnover);
+        $model->entranceTicket = explode(",", $model->entranceTicket);
+        $model->geographicalArea = explode(",", $model->geographicalArea);
+        $model->targetAmount = explode(",", $model->targetAmount);
+        return $model;
     }
 
     /**

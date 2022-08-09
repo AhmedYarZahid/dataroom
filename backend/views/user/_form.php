@@ -1,6 +1,9 @@
 <?php
 
+use backend\modules\dataroom\models\ProfileCompany;
+use kartik\widgets\Select2;
 use yii\helpers\Html;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 use common\models\User;
 use backend\modules\dataroom\Module as DataroomModule;
@@ -64,6 +67,98 @@ use yii\helpers\ArrayHelper;
 
                     <?= $form->field($model, 'city')->textInput(['maxlength' => 150]) ?>
 
+                    <?= $form->field($model, 'targetedSector')->widget(Select2::class, [
+                        'data' => ProfileCompany::sectorList(),
+                        'options' => [
+                            'multiple' => true,
+                            'placeholder' => ''
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'tags' => false,
+                            'language' => [
+                                'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No targeted sector found.') . '";
+                                            }'),
+                            ],
+                        ],
+                        'pluginEvents' => [],
+                    ]); ?>
+                    <?= $form->field($model, 'targetedTurnover')->widget(Select2::class, [
+                        'data' => ProfileCompany::turnoverList(),
+                        'options' => [
+                            'multiple' => true,
+                            'placeholder' => ''
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'tags' => false,
+                            'language' => [
+                                'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No target turnover found.') . '";
+                                            }'),
+                            ],
+                        ],
+                        'pluginEvents' => [],
+                    ]); ?>
+                    <?= $form->field($model, 'entranceTicket')->widget(Select2::class, [
+                        'data' => ProfileCompany::ticketList(),
+                        'options' => [
+                            'multiple' => true,
+                            'placeholder' => ''
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'tags' => false,
+                            'language' => [
+                                'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No entrance ticket found.') . '";
+                                            }'),
+                            ],
+                        ],
+                        'pluginEvents' => [],
+                    ]); ?>
+                    <?= $form->field($model, 'geographicalArea')->widget(Select2::class, [
+                        'data' => ProfileCompany::getGeographicalAreaList(),
+                        'options' => [
+                            'multiple' => true,
+                            'placeholder' => ''
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'tags' => false,
+                            'language' => [
+                                'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No geographical area found.') . '";
+                                            }'),
+                            ],
+                        ],
+                        'pluginEvents' => [],
+                    ]); ?>
+                    <?= $form->field($model, 'targetAmount')->widget(Select2::class, [
+                        'data' => ProfileCompany::getTargetAmountList(),
+                        'options' => [
+                            'multiple' => true,
+                            'placeholder' => ''
+                        ],
+                        'pluginOptions' => [
+                            'allowClear' => true,
+                            'tags' => false,
+                            'language' => [
+                                'noResults' => new JsExpression('function() {
+                                                return "' . Yii::t('admin', 'No target amount found.') . '";
+                                            }'),
+                            ],
+                        ],
+                        'pluginEvents' => [],
+                    ]); ?>
+                    <div class="form-group field-mailingcontactform-effective">
+                        <label class="control-label" for="mailingcontactform-effective">Effectif</label>
+                        <?= Yii::t('admin', 'between') . '&nbsp;&nbsp;' . Html::activeTextInput($model, 'effectiveMin', ['style' => 'width: 100px;']); ?>
+                        &nbsp;
+                        <?= Yii::t('admin', 'and') . '&nbsp;&nbsp;' . Html::activeTextInput($model, 'effectiveMax', ['style' => 'width: 100px;']); ?>
+                    </div>
+
                     <?= $form->field($model, 'comment')->textarea() ?>
 
                     <?= $form->field($model, 'isMailingContact')->checkbox() ?>
@@ -89,7 +184,7 @@ use yii\helpers\ArrayHelper;
                                 <h4>Champs à remplir pour recevoir nos actualités AJAimmo</h4>
                                 <?= $form->field($profiles[$section], 'targetSector')->dropDownList($profiles[$section]::getTargetSectors(), ['prompt' => '']) ?>
 
-                                <?= $form->field($profiles[$section], 'regionIDs')->widget(\kartik\widgets\Select2::class, [
+                                <?= $form->field($profiles[$section], 'regionIDs')->widget(Select2::class, [
                                     'data' => ArrayHelper::map(\common\models\Region::find()->all(), 'id', 'nameWithCode'),
                                     'options' => [
                                         'multiple' => true,
@@ -99,7 +194,7 @@ use yii\helpers\ArrayHelper;
                                         'allowClear' => true,
                                         'tags' => false,
                                         'language' => [
-                                            'noResults' => new \yii\web\JsExpression('function() {
+                                            'noResults' => new JsExpression('function() {
                                             return "' . Yii::t('admin', 'No regions found.') . '";
                                         }'),
                                         ],
@@ -118,7 +213,7 @@ use yii\helpers\ArrayHelper;
                                 <h4>Champs à remplir pour recevoir nos actualités AJAsyndic</h4>
                                 <?= $form->field($profiles[$section], 'propertyType')->dropDownList(\backend\modules\dataroom\models\RoomCoownership::getPropertyTypes(), ['prompt' => '']) ?>
 
-                                <?= $form->field($profiles[$section], 'regionIDs')->widget(\kartik\widgets\Select2::class, [
+                                <?= $form->field($profiles[$section], 'regionIDs')->widget(Select2::class, [
                                     'data' => ArrayHelper::map(\common\models\Region::find()->all(), 'id', 'nameWithCode'),
                                     'options' => [
                                         'multiple' => true,
@@ -128,7 +223,7 @@ use yii\helpers\ArrayHelper;
                                         'allowClear' => true,
                                         'tags' => false,
                                         'language' => [
-                                            'noResults' => new \yii\web\JsExpression('function() {
+                                            'noResults' => new JsExpression('function() {
                                             return "' . Yii::t('admin', 'No regions found.') . '";
                                         }'),
                                         ],

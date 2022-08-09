@@ -58,6 +58,13 @@ use backend\modules\dataroom\Module as DataroomModule;
  * @property integer $isMailingContact
  * @property string $createdDate
  * @property string $updatedDate
+ * @property string $targetedSector
+ * @property string $targetedTurnover
+ * @property string $entranceTicket
+ * @property string $geographicalArea
+ * @property string $targetAmount
+ * @property string $effectiveMin
+ * @property string $effectiveMax
  *
  * @property UserHistory[] $userHistories
  * @property UserHistory[] $roomAccessRequest
@@ -163,9 +170,9 @@ class User extends ActiveRecordHistory implements IdentityInterface
     {
         $scenarios = parent::scenarios();
 
-        $scenarios['register'] = ['type', 'email', 'companyName', 'profession', 'activity', 'firstName', 'lastName', 'city', 'phone', 'phoneMobile', 'zip', 'address', 'birthPlace', 'logo', 'password', 'passwordConfirm', 'comment', 'isMailingContact', 'dataroomSections'];
+        $scenarios['register'] = ['type', 'email', 'companyName', 'profession', 'activity', 'firstName', 'lastName', 'city', 'phone', 'phoneMobile', 'zip', 'address', 'birthPlace', 'logo', 'password', 'passwordConfirm', 'comment', 'isMailingContact', 'dataroomSections', 'targetedSector', 'targetedTurnover', 'entranceTicket', 'geographicalArea', 'targetAmount', 'effectiveMin', 'effectiveMax'];
         $scenarios['update-profile'] = ['companyName', 'profession', 'activity', 'city', 'phone', 'phoneMobile', 'zip', 'address', 'birthPlace', 'isMailingContact'];
-        $scenarios['update-profile-admin'] = array_merge($scenarios['update-profile'], ['email', 'type', 'isActive', 'isConfirmed', 'comment', 'dataroomSections', 'firstName', 'lastName']);
+        $scenarios['update-profile-admin'] = array_merge($scenarios['update-profile'], ['email', 'type', 'isActive', 'isConfirmed', 'comment', 'dataroomSections', 'firstName', 'lastName', 'targetedSector', 'targetedTurnover', 'entranceTicket', 'geographicalArea', 'targetAmount', 'effectiveMin', 'effectiveMax']);
 
         $scenarios['update-password'] = ['password', 'passwordConfirm'];
         $scenarios['request-reset-password'] = ['passwordResetToken'];
@@ -208,7 +215,7 @@ class User extends ActiveRecordHistory implements IdentityInterface
             [['address'], 'string', 'max' => 250],
             [['zip'], 'string', 'max' => 5],
             [['confirmationCode'], 'unique'],
-            [['logo', 'comment'], 'safe'],
+            [['logo', 'comment', 'targetedSector', 'targetedTurnover', 'entranceTicket', 'geographicalArea', 'targetAmount', 'effectiveMin', 'effectiveMax'], 'safe'],
             [['logo'], 'file', 'extensions' => ['jpg', 'jpeg', 'gif', 'png']],
             ['isMailingContact', 'boolean'],
 

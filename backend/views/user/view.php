@@ -1,5 +1,6 @@
 <?php
 
+use backend\modules\dataroom\models\ProfileCompany;
 use yii\helpers\Html;
 use kartik\detail\DetailView;
 use kartik\grid\GridView;
@@ -32,7 +33,6 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-user"></i> ' . $this->title;
             ]) ?>
         <?php endif ?>
     </p>
-
     <?= DetailView::widget([
         'model' => $model,
         'hover' => true,
@@ -83,33 +83,33 @@ $this->params['breadcrumbs'][] = '<i class="fa fa-user"></i> ' . $this->title;
                 'format' => ['datetime', 'php:d/m/Y H:i:s'],
             ],
             [
-                'attribute' => 'targetSector',
-                'value' => $model->targetSector ? $model->targetSector : "",
+                'attribute' => 'targetedSector',
+                'value' => $model->targetedSector ? implode(", ", ProfileCompany::getListValues("sectorList", $model->targetedSector)) : "",
                 'format' => 'html'
             ],
             [
                 'attribute' => 'targetAmount',
-                'value' => $model->targetAmount ? $model->targetAmount : "",
+                'value' => $model->targetAmount ? implode(", ", ProfileCompany::getListValues("getTargetAmountList", $model->targetAmount)) : "",
                 'format' => 'html'
             ],
             [
-                'attribute' => 'entryTicket',
-                'value' => $model->entryTicket ? $model->entryTicket : "",
+                'attribute' => 'entranceTicket',
+                'value' => $model->entranceTicket ? implode(", ", ProfileCompany::getListValues("ticketList", $model->entranceTicket)) : "",
                 'format' => 'html'
             ],
             [
-                'attribute' => 'turnoverName',
-                'value' => $model->turnoverName ? $model->turnoverName : "",
+                'attribute' => 'targetedTurnover',
+                'value' => $model->targetedTurnover ? implode(", ", ProfileCompany::getListValues("turnoverList", $model->targetedTurnover)) : "",
                 'format' => 'html'
             ],
             [
-                'attribute' => 'geographicalAreaName',
-                'value' => $model->geographicalAreaName ? $model->geographicalAreaName : "",
+                'attribute' => 'geographicalArea',
+                'value' => $model->geographicalArea ? implode(", ", ProfileCompany::getListValues("getGeographicalAreaList", $model->geographicalArea)) : "",
                 'format' => 'html'
             ],
             [
                 'attribute' => 'effective',
-                'value' => $model->effective ? $model->effective : "",
+                'value' => $model->effectiveMin && $model->effectiveMax ? $model->effectiveMin." - ". $model->effectiveMax : "",
                 'format' => 'html'
             ],
         ],
