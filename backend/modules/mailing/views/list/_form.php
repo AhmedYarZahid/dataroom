@@ -72,7 +72,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No targeted sector found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -94,7 +94,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No target turnover found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -116,7 +116,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No entrance ticket found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -134,7 +134,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No geographical area found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -152,7 +152,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No target amount found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -185,7 +185,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No target sector found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -203,7 +203,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No regions found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -221,7 +221,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No targeted assets amount found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -239,7 +239,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No assets destination found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -257,7 +257,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No operation nature found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -282,7 +282,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No property type found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],
@@ -300,7 +300,7 @@ $this->registerJsFile("https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/s
                                 'tags' => false,
                                 'language' => [
                                     'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No regions found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                                 ],
                             ],

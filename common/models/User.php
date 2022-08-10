@@ -259,6 +259,11 @@ class User extends ActiveRecordHistory implements IdentityInterface
             'phone' => Yii::t('app', 'Phone'),
             'birthPlace' => Yii::t('app', 'Birth Place'),
             'isMailingContact' => Yii::t('app', 'I want to receive AJA news'),
+            'targetedSector' => Yii::t('app', 'Target Sector'),
+            'targetedTurnover' => Yii::t('app', 'Target Turnover'),
+            'entranceTicket' => Yii::t('app', 'Entrance Ticket'),
+            'geographicalArea' => Yii::t('app', 'Geographical Area'),
+            'targetAmount' => Yii::t('app', 'Target Amount'),
         ];
     }
 

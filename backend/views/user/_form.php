@@ -78,7 +78,7 @@ use yii\helpers\ArrayHelper;
                             'tags' => false,
                             'language' => [
                                 'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No targeted sector found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                             ],
                         ],
@@ -95,7 +95,7 @@ use yii\helpers\ArrayHelper;
                             'tags' => false,
                             'language' => [
                                 'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No target turnover found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                             ],
                         ],
@@ -112,7 +112,7 @@ use yii\helpers\ArrayHelper;
                             'tags' => false,
                             'language' => [
                                 'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No entrance ticket found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                             ],
                         ],
@@ -129,7 +129,7 @@ use yii\helpers\ArrayHelper;
                             'tags' => false,
                             'language' => [
                                 'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No geographical area found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                             ],
                         ],
@@ -146,7 +146,7 @@ use yii\helpers\ArrayHelper;
                             'tags' => false,
                             'language' => [
                                 'noResults' => new JsExpression('function() {
-                                                return "' . Yii::t('admin', 'No target amount found.') . '";
+                                                return "' . Yii::t('admin', 'Aucun résultat.') . '";
                                             }'),
                             ],
                         ],
